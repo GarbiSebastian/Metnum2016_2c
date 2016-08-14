@@ -1,0 +1,8 @@
+Sistema de ecuaciones
+	Ordenar el vector de incognitas primero por radio luego por angulo
+
+
+Estructura para la matriz:
+	(Ver que onda) Interfaz Matríz para poder despues aplicar la mejora para banda
+	
+	
