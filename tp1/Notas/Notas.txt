@@ -3,6 +3,10 @@ Sistema de ecuaciones
 
 
 Estructura para la matriz:
-	(Ver que onda) Interfaz Matríz para poder despues aplicar la mejora para banda
+	(Ver que onda)
+		Interfaz Matríz para poder despues aplicar la mejora para banda
+		VS
+		Modificar los algoritmos para aprovechar ese tema
+		
 	
 	
