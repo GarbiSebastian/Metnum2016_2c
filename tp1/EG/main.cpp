@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 	imprimir(matriz);
 	cout << "EG" << endl; 
 	imprimir(algoritmoEG.matriz());
-	cout <<endl << "LU" << endl; 
+	cout <<endl << "EG" << endl; 
 	Vector b(n,0);
 	b[0]=14;
 	b[1]=51;

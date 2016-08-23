@@ -32,7 +32,15 @@ void AlgoritmoEG::resolver(Vector &b,Vector &x) {
 				this->interna[j][k]= this->interna[j][k] - mji* this->interna[i][k];
 				this->interna[j][i]=mji;
 			}
+			b[j] = b[j] - mji*b[i];
 		}
+	}
+	
+	for(int i = n-1; i >= 0; i--){
+		for(int j = i+1; j< n; j++){
+			b[i] = b[i] - x[j]*this->interna[i][j];
+		}
+		x[i] = b[i]/this->interna[i][i];
 	}
 }
 
