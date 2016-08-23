@@ -9,10 +9,12 @@ public:
     AlgoritmoLU();
     virtual ~AlgoritmoLU();
     void inicializar(Matriz & matriz, int n);
-    Vector resolver(Vector &b);
+    void resolver(Vector &b,Vector &x);
     Matriz& lu();
 protected:
     Matriz LU;
+    void resolver_Ly_b(Vector &b, Vector &y);
+	void resolver_Ux_y(Vector &y, Vector &x);
 };
 
 #endif /* ALGORITMOLU_H */
