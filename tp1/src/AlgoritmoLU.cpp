@@ -17,7 +17,7 @@ void AlgoritmoLU::inicializar(Matriz &matriz, int n) {
 			//Ej = Ej - mji Ei
 			//LU[j] = LU[j] - mji*LU[i]
 			for(int k=i+1; k < n; k++){
-				cout << "i,j,k " << i << ", " << j << ", " << k << endl;
+				//cout << "i,j,k " << i << ", " << j << ", " << k << endl;
 				this->LU[j][k]= this->LU[j][k] - mji* this->LU[i][k];
 				this->LU[j][i]=mji;
 			}
