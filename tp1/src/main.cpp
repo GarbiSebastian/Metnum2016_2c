@@ -33,11 +33,11 @@ double radioExterno;
 int mMasUnoRadios;
 int nAngulos;
 double isoterma;
-int cantDeInstermas;
-Vector temperaturasInternas;
-Vector temperaturasExternas;
-double daltaAngul;
-double daltaAngulCuadrado;
+int cantDeInstancias;
+Matriz temperaturasInternas;
+Matriz temperaturasExternas;
+double deltaAngulo;
+double deltaAnguloCuadrado;
 double deltaRadio;
 double deltaRadioCuadrado;
 Matriz matriz; 
@@ -46,20 +46,21 @@ Matriz matriz;
 double pi = 3.1415926535897;
 
 int main(int argc, char *argv[]){
-	//Leer parametros de argv
-	//archivoDeEntrada
-	//archivoDeSalida
-	//algoritmo 0 = EG , 1 = LU
+	if (argc < 4) {
+		cout << "Debe llamar al programa con <archivoDeEntrada> <archivoDeSalida> <algoritmo>" << endl;
+		return EXIT_SUCCESS;
+	}
+	string archivoDeEntrada = argv[1];
+	string archivoDeSalida = argv[2];
+	string algoritmo = argv[3];
 	
-	//Abrir archivoDeEntrada
-	//Leer parametros de configuracion (primera linea)
-	//radioInterno
-	//radioExterno
-	//cantRadios+1
-	//cantAngulos 
-	//cantInstancias
-	int algoritmo=0;
-	int cantInstancias = 2;
+	cargarDatos(archivoDeEntrada);
+	
+	//Armar matriz de entrada
+	calcularMatriz();
+	AlgoritmoEG algEG;
+	AlgoritmoLU algLU;
+	
 	
 	/*LA RECONCHA DE TU MADRE C++ QUE NO TE DEJA HACER ESTAS COSAS*/
 	/*AlgoritmoInterface alg;
@@ -71,20 +72,20 @@ int main(int argc, char *argv[]){
 		cout << "Error en el parametro algoritmo" << endl; 
 	}*/
 	
-	//int tamMatriz = cantRadios * cantAngulos;
-	int tamMatriz = 8;
-	//Armar matriz de entrada
-	//Matriz matriz(tamMatriz,Vector(tamMatriz,0));
-	matriz = Matriz(tamMatriz,Vector(tamMatriz,0));
-	//alg.inicializar(matriz,tamMatriz);
-
-	for(int instancia = 0; instancia<cantInstancias;instancia++){
-		//Leer de archivDeEntrada las temperaturas para los radios internos y externos
+	for(int instancia = 0; instancia<cantDeInstancias;instancia++){
+		//Leer de archivDeEntrada las temperaturas para los radios internos y externos de la iesima instancia (linea i)
 		Vector b(tamMatriz,0);
 		Vector x(tamMatriz,0);
 		//alg.resolver(b,x);
+		if(algoritmo == "0"){
+			algEG.resolver(b,x);
+		}else if(algoritmo == "1"){
+			algLU.resolver(b,x);
+		}else{
+			cout << "Error en el parametro algoritmo" << endl; 
+		}
 	}
-	
+		
 	
 	    //matriz = Matriz(2, 2);
 	matriz = Matriz(2, Vector(2,0));
@@ -107,52 +108,47 @@ int main(int argc, char *argv[]){
 }
 
 void cargarDatos(string pathEntrada){
-       
-       ifstream archivoDeEntrada;
-       archivoDeEntrada.open(pathEntrada.c_str());
-       archivoDeEntrada >> radioInterno;
-       archivoDeEntrada >> radioExterno;
-       archivoDeEntrada >> mMasUnoRadios;
-       archivoDeEntrada >> nAngulos;
-       archivoDeEntrada >> isoterma;
-       archivoDeEntrada >> cantDeInstermas;
-       
-       temperaturasInternas = Vector(nAngulos);
-       temperaturasExternas = Vector(nAngulos);
-       
-       double temp;
-       for(int i = 0; i < nAngulos; i++){
-              archivoDeEntrada >> temp;       
-              temperaturasInternas[i] = temp;
-       }
-       for(int i = 0; i < nAngulos; i++){
-              archivoDeEntrada >> temp;       
-              temperaturasExternas[i] = temp;
-       }
-       
-       deltaRadio = (double)(radioExterno - radioInterno) / (double)mMasUnoRadios;
-       daltaAngul = convertirDeGradosARadianes((double)(360/nAngulos));
-       deltaRadioCuadrado = deltaRadio * deltaRadio;
-       daltaAngulCuadrado = daltaAngul * daltaAngul;
-       
-       archivoDeEntrada.close();
+	ifstream archivoDeEntrada;
+	archivoDeEntrada.open(pathEntrada.c_str());
+	archivoDeEntrada >> radioInterno;
+	archivoDeEntrada >> radioExterno;
+	archivoDeEntrada >> mMasUnoRadios;
+	archivoDeEntrada >> nAngulos;
+	archivoDeEntrada >> isoterma;
+	archivoDeEntrada >> cantDeInstancias;
 
+	deltaRadio = (double)(radioExterno - radioInterno) / (double)(mMasUnoRadios-1);
+	deltaAngulo = convertirDeGradosARadianes((double)(360/nAngulos));
+	deltaRadioCuadrado = deltaRadio * deltaRadio;
+	deltaAnguloCuadrado = deltaAngulo * deltaAngulo;
+
+	temperaturasInternas = Matriz(cantDeInstancias,Vector(nAngulos,0));
+	temperaturasExternas = Matriz(cantDeInstancias,Vector(nAngulos,0));
+
+	double temp;
+	for(int j = 0 ; j< cantDeInstancias;j++){
+		for(int i = 0; i < nAngulos; i++){
+			archivoDeEntrada >> temp;       
+			temperaturasInternas[j][i] = temp;
+		}
+		for(int i = 0; i < nAngulos; i++){
+			archivoDeEntrada >> temp;       
+			temperaturasExternas[j][i] = temp;
+		}
+	}
+	archivoDeEntrada.close();
 } 
 
 void calcularMatriz(){
-     
-     int tamMatriz = nAngulos * mMasUnoRadios;
-     int radioActual = 1;
-     //matriz = Matriz(tamMatriz,tamMatriz);
-     matriz = Matriz(tamMatriz, Vector(tamMatriz,0));
-     
-     for(int i = 0; i < tamMatriz; i++){
-             escribirFilaMatriz(i, tamMatriz,radioActual);
-             if(i > (radioActual-1)* (mMasUnoRadios-1)){
-                          radioActual++;
-             }
-     }
-     
+	int tamMatriz = nAngulos * mMasUnoRadios;
+	int radioActual = 0;
+	matriz = Matriz(tamMatriz, Vector(tamMatriz,0));
+	for(int i = 0; i < tamMatriz; i++){
+		escribirFilaMatriz(i, tamMatriz,radioActual);
+		if(i > (radioActual)* (mMasUnoRadios-1)){
+			radioActual++;
+		}
+	}     
 }
 
 void escribirFilaMatriz(int j, int tamMatriz, int radioActual){
@@ -200,7 +196,7 @@ double valor_J_MenosUno_K(int j){
 double valor_J_K(int j){
       double radio = radioInterno + (deltaRadio * j);
       double radioCuadarado = radio * radio;
-      return (double)((-2/deltaRadioCuadrado)+(1/(deltaRadio*radio))-(2/(daltaAngulCuadrado*radioCuadarado)));
+      return (double)((-2/deltaRadioCuadrado)+(1/(deltaRadio*radio))-(2/(deltaAnguloCuadrado*radioCuadarado)));
 }
 
 double valor_J_MasUno_K(int j){
@@ -211,7 +207,7 @@ double valor_J_K_MasMenosUno(int j){
       double radio = radioInterno + (deltaRadio * j);
       double radioCuadarado = radio * radio;
       
-      return (double)(1/(daltaAngulCuadrado*radioCuadarado));
+      return (double)(1/(deltaAnguloCuadrado*radioCuadarado));
 }
 
 double convertirDeGradosARadianes(double grados){
@@ -225,9 +221,9 @@ void mostrarDatosCargados(){
     cout << "mMasUnoRadios: " << mMasUnoRadios << endl;
     cout << "nAngulos: " << nAngulos << endl;
     cout << "isoterma: " << isoterma << endl;
-    cout << "cantDeInstermas: " << cantDeInstermas << endl;
+    cout << "cantDeInstancias: " << cantDeInstancias << endl;
     cout << "deltaRadio: " << deltaRadio << endl;
-    cout << "daltaAngul: " << daltaAngul << endl;
+    cout << "deltaAngulo: " << deltaAngulo << endl;
     
     cout << "temperaturasInternas: ";
     mostrarVector(temperaturasInternas);
@@ -252,6 +248,3 @@ void mostrarMatriz(Matriz matriz, int tam){
              } cout << endl;
      }cout << endl;
 }
-
-
-
