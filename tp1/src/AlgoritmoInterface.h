@@ -7,8 +7,8 @@ class AlgoritmoInterface {
 public:
 	AlgoritmoInterface() {};
     virtual ~AlgoritmoInterface() {};
-    virtual void inicializar(matrizReal & matriz, int n)=0;
-    virtual vectorReal resolver(vectorReal &b)=0;
+    virtual void inicializar(Matriz & matriz, int n)=0;
+    virtual void resolver(Vector &b, Vector &x)=0;
 protected:
     int n;
 
