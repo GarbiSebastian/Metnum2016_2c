@@ -74,7 +74,45 @@ int main(int argc, char *argv[]) {
 	}else{
 		cout << "Error en el parametro algoritmo" << endl; 
 	}*/
+	for(int i = 4;i<8;i++){
+		for(int j=0;j<11;j++){
+			matriz[i][j]=0;
+		}
+	}
+	double a = 0.5;
+	double b = -1.7026423673;
+	double c = 1;
+	double d = 0.1013211836;
+	double e = 0.1013211836;
+	
+	matriz[4][0]=a;
+	matriz[5][1]=a;
+	matriz[6][2]=a;
+	matriz[7][3]=a;
+		
+	matriz[4][4]=b;
+	matriz[5][5]=b;
+	matriz[6][6]=b;
+	matriz[7][7]=b;
+		
+	matriz[4][8]=c;
+	matriz[5][9]=c;
+	matriz[6][10]=c;
+	matriz[7][11]=c;
+	
+	matriz[4][7]=d;
+	matriz[5][4]=d;
+	matriz[6][5]=d;
+	matriz[7][6]=d;
+	
+	matriz[4][5]=e;
+	matriz[5][6]=e;
+	matriz[6][7]=e;
+	matriz[7][4]=e;
+		
 	imprimir(matriz);
+	
+	
 	for (int instancia = 0; instancia < cantDeInstancias; instancia++) {
 		//Leer de archivDeEntrada las temperaturas para los radios internos y externos de la iesima instancia (linea i)
 		Vector b(matriz.size(), 0);
@@ -82,6 +120,8 @@ int main(int argc, char *argv[]) {
 			b[i] = temperaturasInternas[instancia][i];
 			b[b.size() - nAngulos + i] = temperaturasExternas[instancia][i];
 		}
+		imprimir(b);
+		cout << "imprimio"<<endl;
 		Vector x(matriz.size(), 0);
 		//alg.resolver(b,x);
 		if (algoritmo == "0") {
@@ -91,9 +131,9 @@ int main(int argc, char *argv[]) {
 		} else {
 			cout << "Error en el parametro algoritmo" << endl;
 		}
-
-		//imprimir(x);
-		escribirSalida(archivoDeSalida, x);
+		imprimir(b);
+		imprimir(x);
+		//escribirSalida(archivoDeSalida, x);
 	}
 
 
