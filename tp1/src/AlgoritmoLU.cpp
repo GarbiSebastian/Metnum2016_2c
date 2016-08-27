@@ -17,7 +17,6 @@ void AlgoritmoLU::inicializar(Matriz &matriz, int n) {
 			//Ej = Ej - mji Ei
 			//LU[j] = LU[j] - mji*LU[i]
 			for(int k=i+1; k < n; k++){
-				//cout << "i,j,k " << i << ", " << j << ", " << k << endl;
 				this->LU[j][k]= this->LU[j][k] - mji* this->LU[i][k];
 				this->LU[j][i]=mji;
 			}
@@ -50,16 +49,10 @@ void AlgoritmoLU::resolver_Ux_y(Vector &y, Vector &x){
 	for(int i=this->n-2;i>=0;i--){
 		double suma = 0;
 		for(int j = i+1;j<this->n;j++){
-			cout << "i " << i  << " j "<< j << endl;
 			suma+= x[j]*this->LU[i][j];
 		}
 		x[i]= (y[i]-suma)/this->LU[i][i];
 	}
-	cout << "X" << endl;
-	for(int i= 0; i<n; i++ ){
-		cout << x[i] << " " ;
-	}
-	cout << endl;
 }
 
 
