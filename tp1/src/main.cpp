@@ -7,6 +7,7 @@
 #include "funcionesDeMatriz.h"
 #include "AlgoritmoEG.h"
 #include <ctime>
+#include <math.h>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ void cargarDatos(string pathEntrada);
 void calcularMatriz();
 void escribirFilaMatriz(int j, int tamMatriz, int radioActual);
 void escribirSalida(string pathSalida, Vector vector);
+void escribirSalida(FILE * salida, Vector x);
 double valor_J_MenosUno_K(int j);
 double valor_J_K(int j);
 double valor_J_MasUno_K(int j);
@@ -26,7 +28,7 @@ double convertirDeGradosARadianes(double grados);
 void mostrarDatosCargados();
 void mostrarVector(Vector vactor);
 void mostrarMatriz(Matriz matriz, int tam);
-
+int convertir_Tjk_a_indice(int j,int k);
 
 //Variables
 double radioInterno;
@@ -44,7 +46,7 @@ double deltaRadioCuadrado;
 Matriz matriz;
 
 //Constante
-double pi = 3.1415926535897;
+double pi = 3.14159265358979323846;
 
 int main(int argc, char *argv[]) {
 	if (argc < 4) {
@@ -61,29 +63,29 @@ int main(int argc, char *argv[]) {
 	calcularMatriz();
 	AlgoritmoEG algEG;
 	AlgoritmoLU algLU;
+	
+//	imprimir(matriz);
 
-	algEG.inicializar(matriz, matriz.size());
-	algLU.inicializar(matriz, matriz.size());
-
-	/*LA RECONCHA DE TU MADRE C++ QUE NO TE DEJA HACER ESTAS COSAS*/
-	/*AlgoritmoInterface alg;
-	if(algoritmo == 0){
-		AlgoritmoEG alg;
-	}else if(algoritmo == 1){
-		AlgoritmoLU alg;
-	}else{
-		cout << "Error en el parametro algoritmo" << endl; 
-	}*/
+/*	
+//JARCODING POWA!!!!!!
 	for(int i = 4;i<8;i++){
 		for(int j=0;j<11;j++){
 			matriz[i][j]=0;
 		}
 	}
-	double a = 0.5;
-	double b = -1.7026423673;
-	double c = 1;
-	double d = 0.1013211836;
-	double e = 0.1013211836;
+	
+	double r = 2;
+	double r2 = pow(r,2);
+	double dr = 1;
+	double dr2 = pow(dr,2);
+	double da = pi/2;
+	double da2 = pow(da,2);
+		
+	double a = (1/dr2)+(1/r)*(-1/dr);
+	double b = (-2/dr2)+(1/r)*(1/dr)+(1/r2)*(-2/da2);
+	double c = (1/dr2);
+	double d = (1/r2)*(1/da2);
+	double e = d;
 	
 	matriz[4][0]=a;
 	matriz[5][1]=a;
@@ -111,19 +113,19 @@ int main(int argc, char *argv[]) {
 	matriz[7][4]=e;
 		
 	imprimir(matriz);
+	* */
 	
+	algEG.inicializar(matriz, matriz.size());
+	algLU.inicializar(matriz, matriz.size());
+	FILE * salida = fopen(archivoDeSalida.c_str(), "w");
 	
 	for (int instancia = 0; instancia < cantDeInstancias; instancia++) {
-		//Leer de archivDeEntrada las temperaturas para los radios internos y externos de la iesima instancia (linea i)
 		Vector b(matriz.size(), 0);
 		for (int i = 0; i < nAngulos; i++) {
 			b[i] = temperaturasInternas[instancia][i];
 			b[b.size() - nAngulos + i] = temperaturasExternas[instancia][i];
 		}
-		imprimir(b);
-		cout << "imprimio"<<endl;
 		Vector x(matriz.size(), 0);
-		//alg.resolver(b,x);
 		if (algoritmo == "0") {
 			algEG.resolver(b, x);
 		} else if (algoritmo == "1") {
@@ -131,13 +133,14 @@ int main(int argc, char *argv[]) {
 		} else {
 			cout << "Error en el parametro algoritmo" << endl;
 		}
-		imprimir(b);
-		imprimir(x);
-		//escribirSalida(archivoDeSalida, x);
+		escribirSalida(salida, x);
 	}
-
-
 	return EXIT_SUCCESS;
+}
+
+int convertir_Tjk_a_indice(int j, int k){
+	int tam = mMasUnoRadios * nAngulos;
+	return j*nAngulos + ((k + nAngulos)%nAngulos);
 }
 
 void cargarDatos(string pathEntrada) {
@@ -150,10 +153,11 @@ void cargarDatos(string pathEntrada) {
 	archivoDeEntrada >> isoterma;
 	archivoDeEntrada >> cantDeInstancias;
 
-	deltaRadio = (double) (radioExterno - radioInterno) / (double) (mMasUnoRadios - 1);
-	deltaAngulo = convertirDeGradosARadianes((double) (360 / nAngulos));
-	deltaRadioCuadrado = deltaRadio * deltaRadio;
-	deltaAnguloCuadrado = deltaAngulo * deltaAngulo;
+	deltaRadio = (double) (radioExterno - radioInterno) / (double) (mMasUnoRadios - 1);//OK SEBA
+	//deltaAngulo = convertirDeGradosARadianes((double) (360 / nAngulos));
+	deltaAngulo = (2*pi)/nAngulos; //SEBA
+	deltaRadioCuadrado = deltaRadio * deltaRadio;//OK SEBA
+	deltaAnguloCuadrado = deltaAngulo * deltaAngulo;// OK SEBA
 
 	temperaturasInternas = Matriz(cantDeInstancias, Vector(nAngulos, 0));
 	temperaturasExternas = Matriz(cantDeInstancias, Vector(nAngulos, 0));
@@ -174,14 +178,44 @@ void cargarDatos(string pathEntrada) {
 
 void calcularMatriz() {
 	int tamMatriz = nAngulos * mMasUnoRadios;
-	int radioActual = 0;
-	matriz = Matriz(tamMatriz, Vector(tamMatriz, 0));
+	matriz = Matriz(tamMatriz, Vector(tamMatriz, 0));//Inicializo todo con 0
+	for(int i=0;i<nAngulos;i++){
+		matriz[i][i]=1;//Inicializo con identidad las posiciones correspondientes al radio interno para todos sus angulos
+		matriz[tamMatriz -nAngulos + i][tamMatriz -nAngulos + i]=1;//Inicializo con identidad las posiciones correspondientes al radio externo para todos sus angulos
+	}
+	double r=radioInterno;
+	double r2= 0.0;
+	double a,b,c,d,e;
+	int tjk,tj_1k,tjm1k,tjk_1,tjkm1;
+	for(int radio = 1;radio < (mMasUnoRadios-1);radio++){//Para cada radio
+		r += deltaRadio;//calculo el valor del radio para el radio actual
+		r2= pow(r,2);//calculo el valor del radio al cuadrado para el radio actual
+		//calculo los coeficientes para el radio actual
+		a = (1/deltaRadioCuadrado)+(1/r)*(-1/deltaRadio);
+		b = (-2/deltaRadioCuadrado)+(1/r)*(1/deltaRadio)+(1/r2)*(-2/deltaAnguloCuadrado);
+		c = (1/deltaRadioCuadrado);
+		d = (1/r2)*(1/deltaAnguloCuadrado);
+		e = d;
+		for(int angulo=0;angulo< nAngulos;angulo++){
+			tjk=convertir_Tjk_a_indice(radio,angulo);
+			tj_1k=convertir_Tjk_a_indice(radio-1,angulo);
+			tjm1k=convertir_Tjk_a_indice(radio+1,angulo);
+			tjk_1=convertir_Tjk_a_indice(radio,angulo-1);
+			tjkm1=convertir_Tjk_a_indice(radio,angulo+1);
+			matriz[tjk][tj_1k]=a;
+			matriz[tjk][tjk]=b;
+			matriz[tjk][tjm1k]=c;
+			matriz[tjk][tjk_1]=d;
+			matriz[tjk][tjkm1]=e;
+		}
+	}
+	/*
 	for (int i = 0; i < tamMatriz; i++) {
 		escribirFilaMatriz(i, tamMatriz, radioActual);
 		if (i > (radioActual)* (mMasUnoRadios - 1)) {
 			radioActual++;
 		}
-	}
+	}*/
 }
 
 void escribirFilaMatriz(int j, int tamMatriz, int radioActual) {
@@ -222,6 +256,14 @@ void escribirSalida(string pathSalida, Vector vector) {
 	}
 	fclose(archivoDeSalida);
 }
+
+void escribirSalida(FILE * salida, Vector x) {
+	string dato;
+	for (int j = 0; j < x.size(); j++) {
+		fprintf(salida, "%.06f\n", x[j]);
+	}
+}
+
 
 double valor_J_MenosUno_K(int j) {
 	double radio = radioInterno + (deltaRadio * j);
