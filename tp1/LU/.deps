@@ -1,0 +1,34 @@
+{
+    ".deps_version": 2, 
+    "g++ -c ./AlgoritmoLU.cpp -o ./AlgoritmoLU.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoInterface.h": "input-8d2e2be1ad74a56c7dee5a6698f4e3e3", 
+        "AlgoritmoLU.cpp": "input-75bef71fefb3bdcecd69568ca848dcc8", 
+        "AlgoritmoLU.h": "input-c385af8c527da9557b996fe0aa2cfdfe", 
+        "AlgoritmoLU.o": "output-a0a0a7045be24e322a6821147839b939", 
+        "typedefs.h": "input-8c5138efc7558096b5c77296e3b69eeb"
+    }, 
+    "g++ -c ./funcionesDeMatriz.cpp -o ./funcionesDeMatriz.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "funcionesDeMatriz.cpp": "input-c34c3d5eaa5f712121566664706e05ba", 
+        "funcionesDeMatriz.h": "input-a034d703dd7fb882d747f388681d0fb4", 
+        "funcionesDeMatriz.o": "output-24226d97565b643f1826ec5d20d8fb2c", 
+        "typedefs.h": "input-8c5138efc7558096b5c77296e3b69eeb"
+    }, 
+    "g++ -c ./main.cpp -o ./main.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoInterface.h": "input-8d2e2be1ad74a56c7dee5a6698f4e3e3", 
+        "AlgoritmoLU.h": "input-c385af8c527da9557b996fe0aa2cfdfe", 
+        "funcionesDeMatriz.h": "input-a034d703dd7fb882d747f388681d0fb4", 
+        "main.cpp": "input-f2b5c5163c45df07f20c8ca450e474c0", 
+        "main.o": "output-871b92fd2739f6c6a735dd78b85349ed", 
+        "typedefs.h": "input-8c5138efc7558096b5c77296e3b69eeb"
+    }, 
+    "g++ -o ./tp ./main.o ./AlgoritmoLU.o ./funcionesDeMatriz.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoLU.o": "input-a0a0a7045be24e322a6821147839b939", 
+        "funcionesDeMatriz.o": "input-24226d97565b643f1826ec5d20d8fb2c", 
+        "main.o": "input-871b92fd2739f6c6a735dd78b85349ed", 
+        "tp": "output-e2a2249294879ab0f3a9c2efe9ee33c0"
+    }
+}

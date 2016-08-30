@@ -28,6 +28,8 @@ int main(int argc, char** argv) {
 	b[2]=152;
 	Vector x(n,0);
 	algoritmoEG.resolver(b,x);
+	cout << "matriz original" << endl;
+	imprimir(matriz);
 	imprimir(b);
 	imprimir(x);
     return 0;
