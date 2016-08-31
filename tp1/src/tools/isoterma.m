@@ -1,4 +1,4 @@
- function isoterma (inputfile, outputfile, isofile)
+ function resultados = isoterma (inputfile, outputfile, isofile)
 
 ifid = fopen(inputfile);
 [datos, count, errorcode] = fscanf(ifid,"%d",6);
@@ -8,12 +8,12 @@ outfid = fopen(outputfile);
 fclose(outfid);
 
 
-angulos = datos(4);
-radios = datos(3);
-ri = datos(1);
-re = datos(2);
-isoterma = datos(5);
-instancias = datos(6);
+angulos = datos(4)
+radios = datos(3)
+ri = datos(1)
+re = datos(2)
+isoterma = datos(5)
+instancias = datos(6)
 
 %if (rows(valores) == angulos * radios)
 %	disp ("Todo bien")
@@ -24,6 +24,7 @@ instancias = datos(6);
 %	disp(rows(valores))
 %endif
 puntos = angulos * radios;
+sizeSalida =angulos*instancias
 
 deltaradio = (re - ri) / radios;
 resultados = zeros(angulos*instancias,1);
@@ -45,9 +46,8 @@ for k = 1 : instancias
     endfor
   endfor
 endfor
-%res = resultados;
 isofid = fopen(isofile,"w");
-for y = 1 : angulos
+for y = 1 : sizeSalida
 	fprintf(isofid,"%f \n", resultados(y));
 endfor
 fclose(isofid);
