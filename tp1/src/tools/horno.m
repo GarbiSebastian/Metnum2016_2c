@@ -65,6 +65,6 @@ for k = 1:ninst
         polar(theta,radioiso);
         polar(theta,interno);
         hold off;
-        pause;
+        
     end
 end

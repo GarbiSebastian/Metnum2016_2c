@@ -23,26 +23,29 @@ instancias = datos(6);
 %	disp(radios)
 %	disp(rows(valores))
 %endif
+puntos = angulos * radios;
 
 deltaradio = (re - ri) / radios;
-resultados = zeros(angulos,1);
+resultados = zeros(angulos*instancias,1);
 
-for x = 0 : radios - 2
-	for y = 0 : angulos - 1
-		pTrj = y + (angulos * x);
-		pTrj1 = pTrj + angulos;
-		Trj = valores(int32(pTrj)+1);
-		Trj1 = valores(int32(pTrj1)+1);
-		
-		if (Trj >= isoterma && Trj1 < isoterma)
-			proporcional = (deltaradio * (isoterma - Trj)) / (Trj -Trj1);
-			final = ri + (proporcional + (x * deltaradio));
-			resultados(y+1) = final;
-			
-		endif
-	endfor
+for k = 1 : instancias
+  for x = 0 : radios - 2
+    for y = 0 : angulos - 1 
+      pTrj = y + (angulos * x) + ((k-1) * (puntos));
+      pTrj1 = pTrj + angulos;
+      Trj = valores(int32(pTrj)+1 );
+      Trj1 = valores(int32(pTrj1)+1);
+      
+      if (Trj >= isoterma && Trj1 < isoterma)
+        proporcional = (deltaradio * (isoterma - Trj)) / (Trj -Trj1);
+        final = ri + (proporcional + (x * deltaradio));
+        resultados(y+1+ ((k-1) * (angulos))) = final;
+        
+      endif
+    endfor
+  endfor
 endfor
-
+%res = resultados;
 isofid = fopen(isofile,"w");
 for y = 1 : angulos
 	fprintf(isofid,"%f \n", resultados(y));
