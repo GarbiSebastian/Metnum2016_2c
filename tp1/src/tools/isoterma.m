@@ -27,7 +27,7 @@ puntos = angulos * radios;
 sizeSalida =angulos*instancias
 
 deltaradio = (re - ri) / radios;
-resultados = zeros(angulos*instancias,1);
+resultados = repmat(re, angulos*instancias,1);
 
 for k = 1 : instancias
   for x = 0 : radios - 2
@@ -38,7 +38,7 @@ for k = 1 : instancias
       Trj1 = valores(int32(pTrj1)+1);
       
       if (Trj >= isoterma && Trj1 < isoterma)
-        proporcional = (deltaradio * (isoterma - Trj)) / (Trj -Trj1);
+        proporcional = (deltaradio * (isoterma - Trj)) / (Trj1 - Trj);
         final = ri + (proporcional + (x * deltaradio));
         resultados(y+1+ ((k-1) * (angulos))) = final;
         

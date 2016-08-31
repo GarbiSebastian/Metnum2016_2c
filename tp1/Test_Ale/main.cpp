@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     int temperaturaExterna = 0;
 
 
-    cout << "Escriviendo archivos con temperaturas externas fijas ..." << endl;
+    cout << "Escribiendo archivos con temperaturas externas fijas ..." << endl;
     for(int radio = 0; radio < 99; radio++){
         for(int angulo = 0; angulo < 97; angulo++){
 
