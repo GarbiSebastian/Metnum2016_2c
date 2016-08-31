@@ -8,12 +8,12 @@ outfid = fopen(outputfile);
 fclose(outfid);
 
 
-angulos = datos(4)
-radios = datos(3)
-ri = datos(1)
-re = datos(2)
-isoterma = datos(5)
-instancias = datos(6)
+angulos = datos(4);
+radios = datos(3);
+ri = datos(1);
+re = datos(2);
+isoterma = datos(5);
+instancias = datos(6);
 
 %if (rows(valores) == angulos * radios)
 %	disp ("Todo bien")
@@ -24,7 +24,7 @@ instancias = datos(6)
 %	disp(rows(valores))
 %endif
 puntos = angulos * radios;
-sizeSalida =angulos*instancias
+sizeSalida =angulos*instancias;
 
 deltaradio = (re - ri) / radios;
 resultados = repmat(re, angulos*instancias,1);
