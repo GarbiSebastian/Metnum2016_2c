@@ -7,7 +7,7 @@
 using namespace std;
 
 void imprimir(matrizReal& M, ostream& out) {
-	out << endl;
+	//out << endl;
 	int n = M.size();
 	int m = M[0].size();
 	for (int i = 0; i < n; i++) {
@@ -16,12 +16,12 @@ void imprimir(matrizReal& M, ostream& out) {
 		}
 		out << endl;
 	}
-	out << endl;
+	//out << endl;
 }
 
 void imprimir(vectorReal& v, bool transpuesto, ostream& out) {
 	int n = v.size();
-	out << endl;
+	//out << endl;
 	if (transpuesto) {
 		for (int i = 0; i < n; i++) {
 			out << v[i] << ' ';
@@ -31,7 +31,7 @@ void imprimir(vectorReal& v, bool transpuesto, ostream& out) {
 			out << v[i] << endl;
 		}
 	}
-	out << endl;
+	//out << endl;
 }
 
 void imprimir(vectorReal& v, ostream& out) {
@@ -53,7 +53,7 @@ void imprimir(matrizEntero& M, ostream& out) {
 
 void imprimir(vectorEntero& v, bool transpuesto, ostream& out) {
 	int n = v.size();
-	out << endl;
+	//out << endl;
 	if (transpuesto) {
 		for (int i = 0; i < n; i++) {
 			out << v[i] << ' ';
@@ -63,7 +63,7 @@ void imprimir(vectorEntero& v, bool transpuesto, ostream& out) {
 			out << v[i] << endl;
 		}
 	}
-	out << endl;
+	//out << endl;
 }
 
 void imprimir(vectorEntero& v, ostream& out) {

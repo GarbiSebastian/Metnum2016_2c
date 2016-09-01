@@ -57,9 +57,10 @@ int main(int argc, char *argv[]) {
 	
 	clock_t inicioGlobal = clock();
 	clock_t inicioInstancia,finInstancia;
-	vector< clock_t> mediciones;
-	vector< clock_t> diferenciasMediciones(1,0);
-	printf("%ld\n", clock());
+	clock_t inicioInicializacion,finInicializacion;
+	//vector< clock_t> mediciones;
+	vector< double> diferenciasMediciones(2,0);
+	
 	if (algoritmo == 0) {
 		algEG.inicializar(matriz, matriz.size());
 	} else if (algoritmo == 1) {
@@ -67,6 +68,7 @@ int main(int argc, char *argv[]) {
 	} else {
 		cout << "Error en el parametro algoritmo" << endl;
 	}
+	diferenciasMediciones[1] = (double) (clock() - inicioGlobal)  / CLOCKS_PER_SEC;
 	FILE * salida = fopen(archivoDeSalida.c_str(), "w");
 	
 	for (int instancia = 0; instancia < cantDeInstancias; instancia++) {
@@ -77,7 +79,7 @@ int main(int argc, char *argv[]) {
 		}
 		Vector x(matriz.size(), 0);
 		inicioInstancia = clock();
-		mediciones.push_back(inicioInstancia);
+		//mediciones.push_back(inicioInstancia);
 		if (algoritmo == 0) {
 			algEG.resolver(b, x);
 		} else if (algoritmo == 1) {
@@ -86,14 +88,16 @@ int main(int argc, char *argv[]) {
 			cout << "Error en el parametro algoritmo" << endl;
 		}
 		finInstancia = clock();
-		mediciones.push_back(finInstancia);
-		diferenciasMediciones.push_back(finInstancia-inicioInstancia);
+		//mediciones.push_back(finInstancia);
+		diferenciasMediciones.push_back((double) (finInstancia-inicioInstancia) / CLOCKS_PER_SEC);
 		escribirSalida(salida, x);
 	}
 	clock_t finGlobal = clock();
-	diferenciasMediciones[0]=finGlobal-inicioGlobal;
+	diferenciasMediciones[0]=(double) (finGlobal-inicioGlobal) / CLOCKS_PER_SEC;
 	//imprimir(mediciones);
-	imprimir(diferenciasMediciones);
+	cout << matriz.size() << " ";
+	imprimir(diferenciasMediciones, true);
+	cout << endl;
 		
 	return EXIT_SUCCESS;
 }
