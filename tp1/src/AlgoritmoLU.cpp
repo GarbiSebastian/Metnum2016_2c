@@ -18,8 +18,8 @@ void AlgoritmoLU::inicializar(Matriz &matriz, int n) {
 			//LU[j] = LU[j] - mji*LU[i]
 			for(int k=i+1; k < n; k++){
 				this->LU[j][k]= this->LU[j][k] - mji* this->LU[i][k];
-				this->LU[j][i]=mji;
 			}
+			this->LU[j][i]=mji;
 		}
 	}
 }
