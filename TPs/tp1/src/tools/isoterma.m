@@ -1,10 +1,9 @@
- function resultados = isoterma (inputfile, outputfile, isofile)
-
+function [resultados,datos] = isoterma (inputfile, outputfile, isofile)
 ifid = fopen(inputfile);
-[datos, count, errorcode] = fscanf(ifid,"%d",6);
+datos = fscanf(ifid,'%d',6);
 fclose(ifid);
 outfid = fopen(outputfile);
-[valores, count, errorcode] = fscanf(outfid,"%f",inf);
+valores= fscanf(outfid,'%f',inf);
 fclose(outfid);
 
 
@@ -15,14 +14,6 @@ re = datos(2);
 isoterma = datos(5);
 instancias = datos(6);
 
-%if (rows(valores) == angulos * radios)
-%	disp ("Todo bien")
-%else
-%	disp ("Todo mal")
-%	disp(angulos)
-%	disp(radios)
-%	disp(rows(valores))
-%endif
 puntos = angulos * radios;
 sizeSalida =angulos*instancias;
 
@@ -42,16 +33,13 @@ for k = 1 : instancias
         final = ri + (proporcional + (x * deltaradio));
         resultados(y+1+ ((k-1) * (angulos))) = final;
         
-      endif
-    endfor
-  endfor
-endfor
-isofid = fopen(isofile,"w");
+      end
+    end
+  end
+end
+isofid = fopen(isofile,'w');
 for y = 1 : sizeSalida
-	fprintf(isofid,"%f \n", resultados(y));
-endfor
+	fprintf(isofid,'%f \n', resultados(y));
+end
 fclose(isofid);
-
-
-
-endfunction
+end

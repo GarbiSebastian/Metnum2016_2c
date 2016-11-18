@@ -1,0 +1,44 @@
+{
+    ".deps_version": 2, 
+    "g++ -c ./AlgoritmoEG.cpp -o ./AlgoritmoEG.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoEG.cpp": "input-9e4e707c0b97f17bf8e4734f20c1be9c", 
+        "AlgoritmoEG.h": "input-87145a338140b6065630f7ce306e047c", 
+        "AlgoritmoEG.o": "output-c0ca322b54da28c8f88227ba6ff0407d", 
+        "AlgoritmoInterface.h": "input-8d2e2be1ad74a56c7dee5a6698f4e3e3", 
+        "typedefs.h": "input-5e217d2675f2f6217b55d74cba240804"
+    }, 
+    "g++ -c ./AlgoritmoLU.cpp -o ./AlgoritmoLU.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoInterface.h": "input-8d2e2be1ad74a56c7dee5a6698f4e3e3", 
+        "AlgoritmoLU.cpp": "input-1d407ee28a1df5aee75ce6650fb9590b", 
+        "AlgoritmoLU.h": "input-a0fcd7bd80d30bfa0c9958d51cbf69a7", 
+        "AlgoritmoLU.o": "output-edc895f3f87177271c60c52ccb1efdf6", 
+        "typedefs.h": "input-5e217d2675f2f6217b55d74cba240804"
+    }, 
+    "g++ -c ./funcionesDeMatriz.cpp -o ./funcionesDeMatriz.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "funcionesDeMatriz.cpp": "input-6f7614899cf28867a0e729d01cf4241e", 
+        "funcionesDeMatriz.h": "input-a034d703dd7fb882d747f388681d0fb4", 
+        "funcionesDeMatriz.o": "output-607a52538649d18c3271ab4107ef13fd", 
+        "typedefs.h": "input-5e217d2675f2f6217b55d74cba240804"
+    }, 
+    "g++ -c ./main.cpp -o ./main.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoEG.h": "input-87145a338140b6065630f7ce306e047c", 
+        "AlgoritmoInterface.h": "input-8d2e2be1ad74a56c7dee5a6698f4e3e3", 
+        "AlgoritmoLU.h": "input-a0fcd7bd80d30bfa0c9958d51cbf69a7", 
+        "funcionesDeMatriz.h": "input-a034d703dd7fb882d747f388681d0fb4", 
+        "main.cpp": "input-96617c3d8f799be4a8a70b29af055079", 
+        "main.o": "output-a52fd0990a78a307fcfac5aa557a42bb", 
+        "typedefs.h": "input-5e217d2675f2f6217b55d74cba240804"
+    }, 
+    "g++ -o ./tp ./AlgoritmoEG.o ./AlgoritmoLU.o ./funcionesDeMatriz.o ./main.o": {
+        ".": "input-5058f1af8388633f609cadb75a75dc9d", 
+        "AlgoritmoEG.o": "input-c0ca322b54da28c8f88227ba6ff0407d", 
+        "AlgoritmoLU.o": "input-edc895f3f87177271c60c52ccb1efdf6", 
+        "funcionesDeMatriz.o": "input-607a52538649d18c3271ab4107ef13fd", 
+        "main.o": "input-a52fd0990a78a307fcfac5aa557a42bb", 
+        "tp": "output-2ce83817ee5fd16e157d07f055cec703"
+    }
+}

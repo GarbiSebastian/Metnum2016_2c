@@ -1,4 +1,4 @@
-function horno(inputfile, solution, isofile)
+function horno(inputfile, solution, isofile,outPath)
 
 ifid = fopen(inputfile);
 solfid = fopen(solution);
@@ -7,7 +7,7 @@ if (nargin > 2)
    isofid = fopen(isofile);
 end
 
-angulos = instparam(4);
+angulos = instparam(4); 
 radios = instparam(3);
 radioi = instparam(1);
 radioe = instparam(2);
@@ -41,14 +41,15 @@ for k = 1:ninst
     end
 
     %Aca ploteo el calor en el horno
-    figure;
-    xdib = reshape(xdib,angulos,radios);
-    xdib(angulos+1,:) = xdib(1,:);
-    ydib = reshape(ydib,angulos,radios);
-    ydib(angulos+1,:) = ydib(1,:);
-    x = reshape(x,angulos,radios);
-    x(angulos+1,:) = x(1,:);
-    h = pcolor(xdib,ydib,x);
+    %figure;
+    %xdib = reshape(xdib,angulos,radios);
+    %xdib(angulos+1,:) = xdib(1,:);
+    %ydib = reshape(ydib,angulos,radios);
+    %ydib(angulos+1,:) = ydib(1,:);
+    %x = reshape(x,angulos,radios);
+    %x(angulos+1,:) = x(1,:);
+    %h = pcolor(xdib,ydib,x);
+    %title(['Calor del horno para discretización con ' int2str(radios) ' radios y ' int2str(angulos) ' angulos'])
 
     %aca ploteo la isoterma
     if (nargin > 2)
@@ -65,6 +66,8 @@ for k = 1:ninst
         polar(theta,radioiso);
         polar(theta,interno);
         hold off;
-        
+        title(['Isoterma para discretización con ' int2str(radios) ' radios y ' int2str(angulos) ' angulos'])
+        print([outPath 'png/isoterma ' int2str(radios) ' radios y ' int2str(angulos) ' angulos'],'-dpng')
+        print([outPath 'svg/isoterma ' int2str(radios) ' radios y ' int2str(angulos) ' angulos'],'-dsvg')
     end
 end
