@@ -1,12 +1,14 @@
 <?php
 
 $isotermas =[];
-$mediciones = file_get_contents("../../mediciones radios.txt");
+$mediciones = file_get_contents("../../medicionesRadios.txt");
 $mediciones = explode("\n",$mediciones);
 $tiempos = [];
-for ($med=0; $med < floor(count($mediciones)/2); $med++) { 
-	$valores = explode(" ", $mediciones[2*$med+1]);
-	$tiempos[$mediciones[2*$med]] = $valores[1];
+for ($med=0; $med < count($mediciones); $med++) { 
+	$valores = explode(" ", $mediciones[$med]);
+	if(count($valores)>2){
+		$tiempos[$valores[0]] = $valores[2];
+	}
 }
 
 for($radios=5;$radios<=100;$radios+=5){
@@ -15,5 +17,13 @@ for($radios=5;$radios<=100;$radios+=5){
 	$isotermas[$radios]=$valor;
 }
 
+/*
+var_export($mediciones);
 var_export($tiempos);
 var_export($isotermas);
+*/
+$salida = "";
+for($radios=5;$radios<=100;$radios+=5){
+	$salida.="$radios {$isotermas[$radios]} {$tiempos[$radios]}\n";
+}
+file_put_contents("../../radiosConIsoterma.txt",$salida);
