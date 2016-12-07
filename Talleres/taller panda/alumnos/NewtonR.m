@@ -2,7 +2,7 @@ function x = NewtonR (a, b, Y, C, tol, CantIt, x0)
 %
 % x0 = punto inicial 
 % a,b= parametros de ecuacion de la recta
-% X  = puntos en R^{3 x n} donde se ubican las rocas de kriptonita
+% Y  = puntos en R^{3 x n} donde se ubican las rocas de kriptonita
 % C  = cota del valor de aturdimiento 
 % tol= valor de tolerancia
 % CantIt = cantidad maxima de iteraciones 
@@ -11,9 +11,8 @@ function x = NewtonR (a, b, Y, C, tol, CantIt, x0)
 
 %definicion de la funcion F a encontrar la raiz:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-F = @(x,a,b,Y,C) ...  %%%%%%%% COMPLETAR  %%%%%%%%%
+F = @(x,a,b,Y,C)  C - A(x,a,b,Y)  ;%%%%%%%% COMPLETAR  %%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 x_ant = x0;
 indit = 0;

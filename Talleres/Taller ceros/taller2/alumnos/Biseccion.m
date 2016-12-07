@@ -12,7 +12,7 @@ function p = Biseccion( a, b, Y, C, tol, CantIt, x0, x1)
 
 %definicion de la funcion F a encontrar la raiz:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-F = @(x,a,b,Y,C) ...  %%%%%%%% COMPLETAR  %%%%%%%%%
+F = @(x,a,b,Y,C) A(x,a,b,Y) - C ; %%%%%%%% COMPLETAR  %%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 iter = 1;

@@ -7,4 +7,4 @@ function dF = derF(t,a,b,Y,C)
 % C: constante del nivel de aturdimiento
 % Y: matriz de tamanio 3xN que representa N valores en R^3 (en cada col)
 
-dF = ...
+dF = -derA(t,a,b,Y);
